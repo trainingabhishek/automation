@@ -1,3 +1,5 @@
+package testcases;
+
 import org.testng.annotations.*;
 
 public class testngDemo {

@@ -1,3 +1,6 @@
+package com.utilities;
+
+import com.utilities.Utils;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;

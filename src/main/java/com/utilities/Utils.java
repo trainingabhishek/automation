@@ -1,9 +1,12 @@
+package com.utilities;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -12,9 +15,9 @@ import java.io.*;
 import java.util.Properties;
 
 public class Utils {
-    static WebDriver driver;
+    public static WebDriver driver;
 
-    @BeforeClass
+
     public static void browserSetUp() throws Exception {
         Properties prop=new Properties();
         InputStream input=new FileInputStream("src/main/resources/config.properties");
@@ -38,6 +41,7 @@ public class Utils {
             System.out.println(driver.getCurrentUrl());
             System.out.println(driver.getTitle());
         }
+
 
     }
 

@@ -1,23 +1,29 @@
-import jdk.jshell.execution.Util;
-import org.apache.commons.io.FileUtils;
+package testcases;
+
+import com.utilities.CustomListener;
+import com.utilities.Utils;
+import locators.WindowPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.sql.SQLOutput;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Listeners(CustomListener.class)
-public class SecondTest extends Utils{
+public class SecondTest extends WindowPage {
+    WindowPage pagefunc;
+
+    @BeforeClass
+    public void setup() throws Exception {
+        browserSetUp();
+        pagefunc=new WindowPage();
+    }
 
     @Test
     public void progressBarValidation() throws Exception {
@@ -60,5 +66,25 @@ public class SecondTest extends Utils{
         WebElement we=driver.findElement(By.xpath("//strong[text()='The Bahamas']"));
         Utils.scrollToWebelement(we);
         Thread.sleep(10000);
+    }
+
+    @Test
+    public void windows() throws InterruptedException {
+        //driver.findElement(By.xpath("//button[text()='    click   ']")).click();
+        pagefunc.clickOpenWindow();
+        //table.click();
+        Thread.sleep(2000);
+        String mainWindow=driver.getWindowHandle();
+        System.out.println(driver.getTitle());
+        Set<String> allWindows=driver.getWindowHandles();
+
+        Iterator<String> iterator=allWindows.iterator();
+        while (iterator.hasNext()){
+            String childWin= iterator.next();
+            if(!mainWindow.equalsIgnoreCase(childWin)){
+                driver.switchTo().window(childWin);
+                System.out.println(driver.getTitle());
+            }
+        }
     }
 }
