@@ -1,6 +1,9 @@
 package com.utilities;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -72,5 +75,51 @@ public class Utils {
         JavascriptExecutor je=(JavascriptExecutor)driver;
         //je.executeScript("arguments[0].scrollIntoView();",we);
         je.executeScript("window.scrollTo(0,200)");
+    }
+
+    public static void readDataExcel() throws Exception {
+        File file=new File("src/main/resources/data.xlsx");
+        FileInputStream fis=new FileInputStream(file);
+        XSSFWorkbook wb=new XSSFWorkbook(fis);
+        XSSFSheet sheet=wb.getSheetAt(0);
+
+        //Read data from row and column
+        String value=sheet.getRow(0).getCell(0).getStringCellValue();
+        System.out.println(value);
+
+        //row Count
+        int rowCount=sheet.getLastRowNum();
+        //col Count
+        Row r=sheet.getRow(0);
+        int colCount=r.getLastCellNum();
+
+        for(int i=0;i<=rowCount;i++){
+            System.out.println("The value at index is : "+sheet.getRow(i).getCell(0).getStringCellValue());
+        }
+
+
+
+        wb.close();
+    }
+
+    public static Object[][] getData(String sheetname) throws Exception {
+        File file=new File("src/main/resources/data.xlsx");
+        FileInputStream fis=new FileInputStream(file);
+        XSSFWorkbook wb=new XSSFWorkbook(fis);
+        XSSFSheet sheet=wb.getSheet(sheetname);
+
+        //row Count
+        int rowCount=sheet.getLastRowNum();
+        //col Count
+        Row r=sheet.getRow(0);
+        int colCount=r.getLastCellNum();
+
+        Object[][] data=new Object[rowCount][colCount];
+        for(int i=0;i<rowCount;i++){
+            for(int j=0;j<colCount;j++){
+                data[i][j]=sheet.getRow(i+1).getCell(j).toString();
+            }
+        }
+        return data;
     }
 }
